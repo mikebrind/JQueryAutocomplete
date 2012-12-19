@@ -1,0 +1,11 @@
+﻿@{
+    var db = Database.Open("Northwind");
+    var sql = @"SELECT ProductName + ' (' + QuantityPerUnit + ')'  AS label FROM Products WHERE ProductName LIKE @0 OR QuantityPerUnit LIKE @0";
+    var term = Request["term"] + "%";
+    var result = db.Query(sql, term);
+    //var data = result.Select(p => new {label = p.ProductName});
+    Json.Write(result, Response.Output);
+}
+@*@"SELECT ProductName  AS label FROM Products WHERE ProductName LIKE @0
+                UNION
+                SELECT QuantityPerUnit AS label FROM Products WHERE QuantityPerUnit LIKE @0";*@
